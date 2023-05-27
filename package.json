@@ -1,0 +1,33 @@
+{
+  "name": "youtubu-clone",
+  "version": "1.0.0",
+  "description": "The best way to watch videos",
+  "scripts": {
+    "dev": "nodemon --exec babel-node src/init.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JbleMaker/tube-reloaded.git"
+  },
+  "keywords": [
+    "tube"
+  ],
+  "author": "JbleMaker<jbojsun@naver.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JbleMaker/tube-reloaded/issues"
+  },
+  "homepage": "https://github.com/JbleMaker/tube-reloaded#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^5.12.3",
+    "morgan": "^1.10.0",
+    "pug": "^3.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.4",
+    "@babel/node": "^7.20.7",
+    "@babel/preset-env": "^7.21.4",
+    "nodemon": "^2.0.22"
+  }
+}
