@@ -9,7 +9,6 @@ export const viewHome = async (req, res) => {
 export const watch = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id).populate("owner");
-
   if (!video) {
     return res.status(404).render("404", { pageTitle: "Video not found." });
   }
@@ -64,15 +63,6 @@ export const postUpload = async (req, res) => {
   } = req.session;
   const { path: fileUrl } = req.file;
   const { title, description, hashtags } = req.body;
-
-  // const {
-  //   session: {
-  //     user: { _id },
-  //   },
-  //   file: { path: fileUrl },
-  //   body: { title, description, hashtags },
-  // } = req;
-
   try {
     const newVideo = await Video.create({
       title,
@@ -86,7 +76,6 @@ export const postUpload = async (req, res) => {
     user.videos.push(newVideo._id);
     user.save();
     //user model에  video._id를 저장
-
     return res.redirect("/");
   } catch (error) {
     return res.status(400).render("upload", {
@@ -103,13 +92,12 @@ export const deleteVideo = async (req, res) => {
   } = req.session;
   const video = await Video.findById(id);
   const user = await User.findById(_id);
-  if (!video) {
+  if (!video)
     return res.status(404).render("404", { pageTitle: "Video not found." });
-  }
   if (String(video.owner) !== String(_id)) {
+    req.flash("error", "Not autohorized");
     return res.status(403).redirect("/");
   }
-
   await Video.findByIdAndDelete(id);
   user.videos.splice(user.videos.indexOf(id), 1);
   user.save();

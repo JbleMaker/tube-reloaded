@@ -71,6 +71,7 @@ export const startGithubLogin = (req, res) => {
   const config = {
     client_id: process.env.GIT_CLIENT,
     allow_signup: false,
+
     scope: "read:user user:email",
   };
   const params = new URLSearchParams(config).toString();
@@ -119,19 +120,18 @@ export const finalGithubLogin = async (req, res) => {
       (email) => email.primary === true && email.verified === true
     );
     if (!emailObj) {
-      // set notification
       return res.redirect("/login");
     }
     let user = await User.findOne({ email: emailObj.email });
     if (!user) {
-      const user = await User.create({
-        name: userData.name,
-        avatarUrl: userData.avatar_url,
+      user = await User.create({
+        avatarUrl: userData.avatar_url ? userData.avatar_url : "undefined",
+        name: userData.name ? userData.name : "Unknown",
         username: userData.login,
         email: emailObj.email,
         password: "",
         socialOnly: true,
-        location: userData.location,
+        location: userData.location ? userData.location : "Unknown",
       });
     }
     req.session.loggedIn = true;
@@ -240,6 +240,7 @@ export const see = async (req, res) => {
   //public으로 모든 사람들이 볼 수 있어야 되기 때문에 session에서 가져오지 않음
   const { id } = req.params;
   const user = await User.findById(id).populate("videos");
+
   if (!user) {
     return res.status(404).render("404", { pageTitle: "User not found" });
   }
