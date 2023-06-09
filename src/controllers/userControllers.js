@@ -239,7 +239,13 @@ export const postChangePassword = async (req, res) => {
 export const see = async (req, res) => {
   //public으로 모든 사람들이 볼 수 있어야 되기 때문에 session에서 가져오지 않음
   const { id } = req.params;
-  const user = await User.findById(id).populate("videos");
+  const user = await User.findById(id).populate({
+    path: "videos",
+    populate: {
+      path: "owner",
+      model: "User",
+    },
+  });
 
   if (!user) {
     return res.status(404).render("404", { pageTitle: "User not found" });
