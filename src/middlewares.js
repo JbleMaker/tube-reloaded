@@ -12,6 +12,7 @@ export const portectorMiddleware = (req, res, next) => {
     next();
     //로그인 되어 있을 경우 요청을 진행
   } else {
+    req.flash("error", "Not authorized");
     return res.redirect("/login");
     //로그인 되어 있지 않은 경우 로그인페이지로 redirect
   }
@@ -22,6 +23,7 @@ export const publicOnlyMiddleware = (req, res, next) => {
     return next();
     //로그인 되어 있지 않을 경우 요청을 진행
   } else {
+    req.flash("error", "Not authorized");
     return res.redirect("/");
     //로그인되어 있을 경우 홈으로 redirect
   }
