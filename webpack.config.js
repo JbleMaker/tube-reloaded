@@ -16,8 +16,6 @@ module.exports = {
       filename: "css/styles.css",
     }),
   ],
-  mode: "development",
-  watch: true,
   output: {
     //작업이 끝난 후의 파일을 ./assets/js/ 디렉토리에 저장
     filename: "js/[name].js",
